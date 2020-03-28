@@ -2,8 +2,6 @@ import os, telebot, logging, sys
 from flask import Flask, request
 from Classes.Main import Main, Bot
 
-Main.Start(Main)
-
 TOKEN = os.environ.get('TOKEN')
 
 if (not TOKEN): sys.exit()
