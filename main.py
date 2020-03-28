@@ -1,6 +1,6 @@
 import os, telebot, logging, sys
 from flask import Flask, request
-from Classes.Main import Main, Bot
+from Classes.Main import Main
 
 TOKEN = os.environ.get('TOKEN')
 
