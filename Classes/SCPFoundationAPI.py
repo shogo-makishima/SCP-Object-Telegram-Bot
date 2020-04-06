@@ -2,8 +2,8 @@ from bs4 import BeautifulSoup
 from requests import get
 from Classes.Core.Languages import Languanges
 
-
 class SCPFoundationAPI:
+    urls = ["http://scp-wiki.net/scp-", "http://scpfoundation.net/scp-"]
     url = "http://scp-wiki.net/scp-"
 
     def __init__(self): pass
