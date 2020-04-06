@@ -18,9 +18,9 @@ def start_message(message):
 
 @bot.message_handler(content_types=['text'])
 def send_text(message):
-    scpText = run(SCPFoundationAPI.GetObjectByNumber(SCPFoundationAPI, message.text))
-    print(len(scpText))
-    bot.send_message(message.chat.id, scpText)
+    scpStrings = run(SCPFoundationAPI.GetObjectByNumber(SCPFoundationAPI, message.text))
+    for scpString in scpStrings:
+        bot.send_message(message.chat.id, scpString)
 
 if ("HEROKU" in list(os.environ.keys())):
     logger = telebot.logger

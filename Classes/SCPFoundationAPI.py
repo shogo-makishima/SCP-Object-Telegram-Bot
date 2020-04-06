@@ -10,10 +10,17 @@ class SCPFoundationAPI:
         html = get(self.url + number).text
         data = BeautifulSoup(html, 'html.parser')
 
+        strings: list = []
         string: str = ""
 
         for tag in data.find_all(id="page-content"):
             for element in tag.recursiveChildGenerator():
-                if (element.name in ["p", "li"]): string += f"{element.text}\n"
+                if (element.name in ["p", "li"]):
+                    if (len(element.text) + len(string) > 3000):
+                        strings.append(string)
+                        string = ""
+                    string += f"{element.text}\n"
 
-        return string
+        strings.append(string)
+
+        return strings
