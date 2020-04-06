@@ -1,7 +1,7 @@
 import os, telebot, logging, sys
 from flask import Flask, request
 from asyncio import run
-from Classes.SCPFoundationAPI import SCPFoundationAPI
+from Classes.SCPFoundationAPI import SCPFoundationAPI, URLS
 
 # scpAPI = SCPFoundationAPI()
 # print(scpAPI.GetObjectByNumber("3333"))
@@ -16,11 +16,26 @@ bot = telebot.TeleBot(TOKEN)
 def start_message(message):
     bot.send_message(message.chat.id, f"Введите номер объекта...")
 
+@bot.message_handler(commands=['/settingSource'])
+def send_SettingSource(message):
+    keyboard = telebot.types.InlineKeyboardMarkup()
+    for i in URLS.urls:
+        key = telebot.types.InlineKeyboardButton(text=i, callback_data=f"s_{i}")
+        keyboard.add(key)
+    bot.send_message(message.chat.id, f"Выберете источник поиска: ", reply_markup=keyboard)
+
 @bot.message_handler(content_types=['text'])
-def send_text(message):
+def send_scpText(message):
     scpStrings = run(SCPFoundationAPI.GetObjectByNumber(SCPFoundationAPI, message.text))
     for scpString in scpStrings:
         bot.send_message(message.chat.id, scpString)
+
+@bot.callback_query_handler(func=lambda call: True)
+def callback_worker(call):
+    data, prefix = call.data[2:], call.data[:1]
+    print(f"Data = {data}; Prefix = {prefix};")
+    if (prefix == "s"): SCPFoundationAPI.url = data
+
 
 if ("HEROKU" in list(os.environ.keys())):
     logger = telebot.logger
