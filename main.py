@@ -27,7 +27,7 @@ def send_SettingSource(message):
 
 @bot.message_handler(content_types=['text'])
 def send_scpText(message):
-    scpStrings = run(SCPFoundationAPI.GetObjectByNumber(SCPFoundationAPI, message.text))
+    scpStrings = run(SCPFoundationAPI.GetObjectByNumber(SCPFoundationAPI, message.text, url=Main.LoadPerson(Main, message.chat.id)["url"]))
     for scpString in scpStrings:
         bot.send_message(message.chat.id, scpString)
 
@@ -35,7 +35,10 @@ def send_scpText(message):
 def callback_worker(call):
     data, prefix = call.data[2:], call.data[:1]
     print(f"Data = {data}; Prefix = {prefix};")
-    if (prefix == "s"): print(call.message.chat.id)
+    if (prefix == "s"):
+        personDictionary = Main.LoadPerson(Main, call.message.chat.id)
+        if (personDictionary): Main.SavePerson(Main, chat_id=personDictionary["chat_id"], newUrl=personDictionary["url"])
+        else: Main.SavePerson(Main, chat_id=call.message.chat.id, newUrl=SCPFoundationAPI.url)
 
 
 if ("HEROKU" in list(os.environ.keys())):

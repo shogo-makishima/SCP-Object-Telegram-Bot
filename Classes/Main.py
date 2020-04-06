@@ -9,6 +9,7 @@ class Main:
                 return json.load(file)
         except: return None
 
+    @staticmethod
     def SavePerson(self, chat_id: int, newUrl: str) -> None:
         data = {
             "chat_id": chat_id,
