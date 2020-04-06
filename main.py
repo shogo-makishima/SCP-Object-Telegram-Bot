@@ -37,7 +37,7 @@ def callback_worker(call):
     print(f"Data = {data}; Prefix = {prefix};")
     if (prefix == "s"):
         personDictionary = Main.LoadPerson(Main, call.message.chat.id)
-        if (personDictionary): Main.SavePerson(Main, chat_id=personDictionary["chat_id"], newUrl=personDictionary["url"])
+        if (personDictionary): Main.SavePerson(Main, chat_id=personDictionary["chat_id"], newUrl=data)
         else: Main.SavePerson(Main, chat_id=call.message.chat.id, newUrl=SCPFoundationAPI.url)
 
 
