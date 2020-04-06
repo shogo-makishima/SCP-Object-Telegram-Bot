@@ -3,7 +3,7 @@ from requests import get
 from Classes.Core.Languages import Languanges
 
 class URLS:
-    urls = ["scp-wiki.net/scp-", "scpfoundation.net/scp-"]
+    urls = ["http://scp-wiki.net/scp-", "http://scpfoundation.net/scp-"]
 
 
 class SCPFoundationAPI:
