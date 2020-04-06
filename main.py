@@ -31,6 +31,8 @@ def send_scpText(message):
     try: url = Main.LoadPerson(Main, message.chat.id)["url"]
     except TypeError: print("Person has NoneType")
 
+    for i in range(3): bot.send_message(message.chat.id, "Внимание! Дальше следует секретная информация.")
+
     scpStrings = run(SCPFoundationAPI.GetObjectByNumber(SCPFoundationAPI, message.text, url=url))
     for scpString in scpStrings:
         bot.send_message(message.chat.id, scpString)
