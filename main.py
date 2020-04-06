@@ -1,6 +1,6 @@
 import os, telebot, logging, sys
 from flask import Flask, request
-# from Classes.SCPFoundationAPI import SCPFoundationAPI
+from Classes.SCPFoundationAPI import SCPFoundationAPI
 
 # scpAPI = SCPFoundationAPI()
 # print(scpAPI.GetObjectByNumber("3333"))
@@ -9,7 +9,7 @@ TOKEN = os.environ.get('TOKEN')
 
 if (not TOKEN): sys.exit()
 
-# scpAPI = SCPFoundationAPI()
+scpAPI = SCPFoundationAPI()
 bot = telebot.TeleBot(TOKEN)
 
 @bot.message_handler(commands=['start'])
