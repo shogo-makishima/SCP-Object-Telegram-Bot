@@ -27,7 +27,11 @@ def send_SettingSource(message):
 
 @bot.message_handler(content_types=['text'])
 def send_scpText(message):
-    scpStrings = run(SCPFoundationAPI.GetObjectByNumber(SCPFoundationAPI, message.text, url=Main.LoadPerson(Main, message.chat.id)["url"]))
+    url = None
+    try: url = Main.LoadPerson(Main, message.chat.id)["url"]
+    except TypeError: print("Person has NoneType")
+
+    scpStrings = run(SCPFoundationAPI.GetObjectByNumber(SCPFoundationAPI, message.text, url=url))
     for scpString in scpStrings:
         bot.send_message(message.chat.id, scpString)
 
