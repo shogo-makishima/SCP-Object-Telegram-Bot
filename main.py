@@ -17,7 +17,7 @@ bot = telebot.TeleBot(TOKEN)
 def start_message(message):
     bot.send_message(message.chat.id, f"Введите номер объекта...\n\nПредупреждение: Telegram не позволяет отправлять сообщения содержащие более 4096 символов, поэтому сообщение может делиться на несколько.")
 
-@bot.message_handler(commands=['settingSource'])
+@bot.message_handler(commands=['source'])
 def send_SettingSource(message):
     keyboard = telebot.types.InlineKeyboardMarkup()
     for i in SCPFoundationAPI.urls:
