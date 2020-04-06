@@ -2,6 +2,7 @@ import os, telebot, logging, sys
 from flask import Flask, request
 from asyncio import run
 from Classes.SCPFoundationAPI import SCPFoundationAPI, URLS
+from Classes.Main import Main
 
 # scpAPI = SCPFoundationAPI()
 # print(scpAPI.GetObjectByNumber("3333"))
@@ -34,7 +35,7 @@ def send_scpText(message):
 def callback_worker(call):
     data, prefix = call.data[2:], call.data[:1]
     print(f"Data = {data}; Prefix = {prefix};")
-    if (prefix == "s"): SCPFoundationAPI.url = data
+    if (prefix == "s"): print(call)
 
 
 if ("HEROKU" in list(os.environ.keys())):
