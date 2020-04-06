@@ -1,18 +1,16 @@
-import requests
+from Classes.Core.Languages import Languanges
+from requests import get
+
 
 class YandexTranslatorAPI:
-    class Languages:
-        russian = "ru"
-        english = "en"
-
     def __init__(self, key=None):
         self.key = key
 
-    def TranslatePhrase(self, text="Empty", languageFrom=Languages.english, languageTo=Languages.russian):
+    def TranslatePhrase(self, text="Empty", languageFrom: Languanges.Language =Languanges.ENG, languageTo: Languanges.Language =Languanges.RU):
         returnText = None
         try:
-            params = {"key": self.key, "text": text, "lang": f"{languageFrom}-{languageTo}"}
-            response = requests.get("https://translate.yandex.net/api/v1.5/tr.json/translate", params=params)
+            params = {"key": self.key, "text": text, "lang": f"{languageFrom.name}-{languageTo.name}"}
+            response = get("https://translate.yandex.net/api/v1.5/tr.json/translate", params=params)
             returnText = response.json()["text"]
         except: pass
         return returnText
