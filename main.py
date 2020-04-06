@@ -38,7 +38,7 @@ def callback_worker(call):
     if (prefix == "s"):
         personDictionary = Main.LoadPerson(Main, call.message.chat.id)
         if (personDictionary): Main.SavePerson(Main, chat_id=personDictionary["chat_id"], newUrl=data)
-        else: Main.SavePerson(Main, chat_id=call.message.chat.id, newUrl=SCPFoundationAPI.url)
+        else: Main.SavePerson(Main, chat_id=call.message.chat.id, newUrl=data)
 
 
 if ("HEROKU" in list(os.environ.keys())):

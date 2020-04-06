@@ -9,6 +9,7 @@ class SCPFoundationAPI:
     def __init__(self): pass
 
     async def GetObjectByNumber(self, number: str = "610", langunage: Languanges.Language = Languanges.RU, url: str = None):
+        print(url)
         if (url): html = get(url + number).text
         else: html = get(self.url + number).text
         data = BeautifulSoup(html, 'html.parser')
