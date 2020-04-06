@@ -15,7 +15,7 @@ bot = telebot.TeleBot(TOKEN)
 
 @bot.message_handler(commands=['start'])
 def start_message(message):
-    bot.send_message(message.chat.id, f"Введите номер объекта...")
+    bot.send_message(message.chat.id, f"Введите номер объекта...\n\nПредупреждение: Telegram не позволяет отправлять сообщения содержащие более 4096 символов, поэтому сообщение может делиться на несколько.")
 
 @bot.message_handler(commands=['settingSource'])
 def send_SettingSource(message):
@@ -39,10 +39,13 @@ def send_scpText(message):
 def callback_worker(call):
     data, prefix = call.data[2:], call.data[:1]
     print(f"Data = {data}; Prefix = {prefix};")
+
     if (prefix == "s"):
         personDictionary = Main.LoadPerson(Main, call.message.chat.id)
         if (personDictionary): Main.SavePerson(Main, chat_id=personDictionary["chat_id"], newUrl=data)
         else: Main.SavePerson(Main, chat_id=call.message.chat.id, newUrl=data)
+
+    bot.send_message(call.message.chat.id, f"Настройки сохранены.")
 
 
 if ("HEROKU" in list(os.environ.keys())):
