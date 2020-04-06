@@ -35,7 +35,7 @@ def send_scpText(message):
 def callback_worker(call):
     data, prefix = call.data[2:], call.data[:1]
     print(f"Data = {data}; Prefix = {prefix};")
-    if (prefix == "s"): print(call)
+    if (prefix == "s"): print(call.chat.id)
 
 
 if ("HEROKU" in list(os.environ.keys())):

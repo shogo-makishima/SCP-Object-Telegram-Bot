@@ -19,7 +19,7 @@ class SCPFoundationAPI:
         for tag in data.find_all(id="page-content"):
             for element in tag.recursiveChildGenerator():
                 if (element.name in ["p", "li"]):
-                    if (len(element.text) + len(string) > 3000):
+                    if (len(element.text) + len(string) > 4096):
                         strings.append(string)
                         string = ""
                     string += f"{element.text}\n"
