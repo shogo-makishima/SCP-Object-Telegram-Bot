@@ -16,7 +16,7 @@ bot = telebot.TeleBot(TOKEN)
 def start_message(message):
     bot.send_message(message.chat.id, f"Введите номер объекта...")
 
-@bot.message_handler(commands=['/settingSource'])
+@bot.message_handler(commands=['settingSource'])
 def send_SettingSource(message):
     keyboard = telebot.types.InlineKeyboardMarkup()
     for i in URLS.urls:
