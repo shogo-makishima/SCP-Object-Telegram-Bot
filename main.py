@@ -1,5 +1,6 @@
 import os, telebot, logging, sys
 from flask import Flask, request
+from asyncio import run
 from Classes.SCPFoundationAPI import SCPFoundationAPI
 
 # scpAPI = SCPFoundationAPI()
@@ -9,7 +10,6 @@ TOKEN = os.environ.get('TOKEN')
 
 if (not TOKEN): sys.exit()
 
-scpAPI = SCPFoundationAPI()
 bot = telebot.TeleBot(TOKEN)
 
 @bot.message_handler(commands=['start'])
@@ -18,9 +18,8 @@ def start_message(message):
 
 @bot.message_handler(content_types=['text'])
 def send_text(message):
-    scpText = scpAPI.GetObjectByNumber(message.text)
-    bot.send_message(message.chat.id, scpText)
-
+    scpText = await run(SCPFoundationAPI.GetObjectByNumber(SCPFoundationAPI, "3333"))
+    await bot.send_message(message.chat.id, scpText)
 
 if ("HEROKU" in list(os.environ.keys())):
     logger = telebot.logger

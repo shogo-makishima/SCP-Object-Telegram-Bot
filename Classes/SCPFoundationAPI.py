@@ -6,9 +6,9 @@ class SCPFoundationAPI:
     url = 'http://scpfoundation.net/scp-'
     def __init__(self): pass
 
-    def GetObjectByNumber(self, number: str = "610", langunage: Languanges.Language = Languanges.RU):
+    async def GetObjectByNumber(self, number: str = "610", langunage: Languanges.Language = Languanges.RU):
         html = get(self.url + number).text
-        data = BeautifulSoup(html)
+        data = BeautifulSoup(html, 'html.parser')
 
         string: str = ""
 
@@ -17,5 +17,3 @@ class SCPFoundationAPI:
                 if (element.name in ["p", "li"]): string += f"{element.text}\n"
 
         return string
-
-
