@@ -4,6 +4,7 @@ from Classes.Core.Languages import Languanges
 
 class SCPFoundationAPI:
     url = 'http://scpfoundation.net/scp-'
+    def __init__(self): pass
 
     def GetObjectByNumber(self, number: str = "610", langunage: Languanges.Language = Languanges.RU):
         html = get(self.url + number).text

@@ -18,7 +18,7 @@ def start_message(message):
 
 @bot.message_handler(content_types=['text'])
 def send_text(message):
-    print(message.text)
+    print(scpAPI.GetObjectByNumber(message.text))
     # if (message.text != ""):
         # bot.send_message(message.chat.id, scpAPI.GetObjectByNumber("5000"))
 
