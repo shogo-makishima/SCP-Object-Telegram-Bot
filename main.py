@@ -3,8 +3,7 @@ from flask import Flask, request
 from Classes.SCPFoundationAPI import SCPFoundationAPI
 
 # scpAPI = SCPFoundationAPI()
-# print(scpAPI.GetObjectByNumber("5000"))
-
+# print(scpAPI.GetObjectByNumber("3333"))
 
 TOKEN = os.environ.get('TOKEN')
 
