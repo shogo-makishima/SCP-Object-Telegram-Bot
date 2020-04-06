@@ -18,8 +18,8 @@ def start_message(message):
 
 @bot.message_handler(content_types=['text'])
 def send_text(message):
-    scpText = run(SCPFoundationAPI.GetObjectByNumber(SCPFoundationAPI, "3333"))
-    print(scpText)
+    scpText = run(SCPFoundationAPI.GetObjectByNumber(SCPFoundationAPI, message.text))
+    print(len(scpText))
     bot.send_message(message.chat.id, scpText)
 
 if ("HEROKU" in list(os.environ.keys())):
