@@ -17,9 +17,9 @@ def start_message(message):
     bot.send_message(message.chat.id, f"Введите номер объекта...")
 
 @bot.message_handler(content_types=['text'])
-async def send_text(message):
-    scpText = await run(SCPFoundationAPI.GetObjectByNumber(SCPFoundationAPI, "3333"))
-    await bot.send_message(message.chat.id, scpText)
+def send_text(message):
+    scpText = run(SCPFoundationAPI.GetObjectByNumber(SCPFoundationAPI, "3333"))
+    bot.send_message(message.chat.id, scpText)
 
 if ("HEROKU" in list(os.environ.keys())):
     logger = telebot.logger
