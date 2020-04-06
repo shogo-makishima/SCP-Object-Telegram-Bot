@@ -20,7 +20,7 @@ def start_message(message):
 @bot.message_handler(commands=['settingSource'])
 def send_SettingSource(message):
     keyboard = telebot.types.InlineKeyboardMarkup()
-    for i in URLS.urls:
+    for i in SCPFoundationAPI.urls:
         key = telebot.types.InlineKeyboardButton(text=i, callback_data=f"s_{i}")
         keyboard.add(key)
     bot.send_message(message.chat.id, f"Выберете источник поиска: ", reply_markup=keyboard)
