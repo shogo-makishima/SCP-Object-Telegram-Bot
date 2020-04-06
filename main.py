@@ -17,7 +17,7 @@ def start_message(message):
     bot.send_message(message.chat.id, f"Введите номер объекта...")
 
 @bot.message_handler(content_types=['text'])
-def send_text(message):
+async def send_text(message):
     scpText = await run(SCPFoundationAPI.GetObjectByNumber(SCPFoundationAPI, "3333"))
     await bot.send_message(message.chat.id, scpText)
 
