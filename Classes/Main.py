@@ -37,9 +37,13 @@ class SQLMain:
         return self.__cursor.execute(f"""SELECT last_finding FROM Users WHERE chat_id = {chat_id};""").fetchone()[0]
 
     def GetFavoriteFromChatID(self, chat_id: int) -> list:
-        string = str(self.__cursor.execute(f"""SELECT favorite FROM Users WHERE chat_id = {chat_id};""").fetchone()[0])
-        temp_list = string.split(",")
-        return temp_list if (temp_list != ['']) else list()
+        try:
+            string = str(self.__cursor.execute(f"""SELECT favorite FROM Users WHERE chat_id = {chat_id};""").fetchone()[0])
+            temp_list = string.split(",")
+            return temp_list if (temp_list != ['']) else list()
+        except TypeError:
+            self.SetUserFromChatID(chat_id)
+            self.GetFavoriteFromChatID(chat_id)
 
     def SetFavoriteByChatID(self, chat_id: int, data: str) -> None:
         temp_data = self.GetFavoriteFromChatID(chat_id)
