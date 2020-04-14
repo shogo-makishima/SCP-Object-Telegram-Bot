@@ -2,7 +2,6 @@ import os, telebot, logging, sys
 from flask import Flask, request
 from asyncio import run
 from Classes.SCPFoundationAPI import SCPFoundationAPI
-from Classes.Main import Main
 from Classes.Main import SQLMain
 
 # scpAPI = SCPFoundationAPI()
