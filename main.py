@@ -57,7 +57,7 @@ def callback_worker(call):
     print(f"Data = {data}; Prefix = {prefix};")
 
     if (prefix == "s"):
-        person = sql.GetUserFromChatID(1)
+        person = sql.GetUserFromChatID(call.message.chat.id)
         print(f"PERSON: {person}")
         if (person):
             sql.SetSourceFromChatID(call.message.chat.id, data)
