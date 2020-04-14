@@ -1,7 +1,7 @@
 import json, os, math, sqlite3
 
 class SQLMain:
-    __connection = sqlite3.connect("app\\Saves\\SCPBot.db")
+    __connection = sqlite3.connect("app\\Saves\\SCPBot.db", check_same_thread=False)
     __cursor = __connection.cursor()
 
     def GetAllSources(self) -> list:
