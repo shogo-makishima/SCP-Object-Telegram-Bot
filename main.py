@@ -94,6 +94,17 @@ def callback_worker(call):
 
         bot.send_message(call.message.chat.id, f"Успешно.")
 
+    elif (prefix == "d"):
+        person = sql.GetUserFromChatID(call.message.chat.id)
+        print(f"PERSON: {person}")
+        if (person):
+            sql.RemoveFavoriteByChatID(call.message.chat.id, data)
+        else:
+            sql.SetUserFromChatID(call.message.chat.id)
+            sql.RemoveFavoriteByChatID(call.message.chat.id, data)
+
+        bot.send_message(call.message.chat.id, f"Успешно.")
+
 
 if ("HEROKU" in list(os.environ.keys())):
     logger = telebot.logger

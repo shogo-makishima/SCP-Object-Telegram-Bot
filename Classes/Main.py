@@ -53,5 +53,16 @@ class SQLMain:
         """)
         self.__connection.commit()
 
+    def RemoveFavoriteByChatID(self, chat_id: int, data: str) -> None:
+        temp_data = self.GetFavoriteFromChatID(chat_id)
+        if (data in temp_data): temp_data.remove(data)
+        else: return
+        self.__cursor.execute(f"""
+                UPDATE Users
+                SET favorite = \"{",".join(temp_data)}\"
+                WHERE chat_id = {chat_id}
+                """)
+        self.__connection.commit()
+
     def CloseDataBase(self):
         self.__connection.close()
