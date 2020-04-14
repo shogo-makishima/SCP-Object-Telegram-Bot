@@ -25,7 +25,7 @@ bot = telebot.TeleBot(TOKEN)
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 db_path = os.path.join(BASE_DIR, "Saves/SCPBot.db")
 sql = SQLMain(db_path)
-print(sql.GetAllSources())
+print(sql.GetAllTables())
 
 @bot.message_handler(commands=['start'])
 def start_message(message):
@@ -58,7 +58,9 @@ def callback_worker(call):
 
     if (prefix == "s"):
         person = sql.GetUserFromChatID(1)
-        if (person): sql.SetSourceFromChatID(call.message.chat.id, data)
+        print(f"PERSON: {person}")
+        if (person):
+            sql.SetSourceFromChatID(call.message.chat.id, data)
         else:
             sql.SetUserFromChatID(call.message.chat.id)
             sql.SetSourceFromChatID(call.message.chat.id, data)
