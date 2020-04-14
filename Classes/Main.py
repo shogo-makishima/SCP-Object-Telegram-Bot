@@ -43,7 +43,7 @@ class SQLMain:
             return temp_list if (temp_list != ['']) else list()
         except TypeError:
             self.SetUserFromChatID(chat_id)
-            self.GetFavoriteFromChatID(chat_id)
+            return ["None"]
 
     def SetFavoriteByChatID(self, chat_id: int, data: str) -> None:
         temp_data = self.GetFavoriteFromChatID(chat_id)
