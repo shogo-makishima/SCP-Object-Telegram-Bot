@@ -3,15 +3,26 @@ from flask import Flask, request
 from asyncio import run
 from Classes.SCPFoundationAPI import SCPFoundationAPI
 from Classes.Main import Main
+from Classes.Main import SQLMain
 
 # scpAPI = SCPFoundationAPI()
 # print(scpAPI.GetObjectByNumber("3333"))
+
+
+"""
+sql = SQLMain()
+sql.SetFavoriteByChatID(666314796, "3333")
+print(sql.GetFavoriteFromChatID(666314796))
+print(sql.SetSourceFromChatID(666314796, "RU"))
+"""
+
 
 TOKEN = os.environ.get('TOKEN')
 
 if (not TOKEN): sys.exit()
 
 bot = telebot.TeleBot(TOKEN)
+sql = SQLMain()
 
 @bot.message_handler(commands=['start'])
 def start_message(message):
@@ -20,7 +31,7 @@ def start_message(message):
 @bot.message_handler(commands=['source'])
 def send_SettingSource(message):
     keyboard = telebot.types.InlineKeyboardMarkup()
-    for i in SCPFoundationAPI.urls:
+    for i in sql.GetAllSources():
         key = telebot.types.InlineKeyboardButton(text=i, callback_data=f"s_{i}")
         keyboard.add(key)
     bot.send_message(message.chat.id, f"Выберете источник поиска: ", reply_markup=keyboard)
@@ -28,7 +39,7 @@ def send_SettingSource(message):
 @bot.message_handler(content_types=['text'])
 def send_scpText(message):
     url = None
-    try: url = Main.LoadPerson(Main, message.chat.id)["url"]
+    try: url = sql.GetSourceFromChatID(message.chat.id)
     except TypeError: print("Person has NoneType")
 
     for i in range(3): bot.send_message(message.chat.id, "Внимание! Дальше следует секретная информация.")
@@ -43,9 +54,11 @@ def callback_worker(call):
     print(f"Data = {data}; Prefix = {prefix};")
 
     if (prefix == "s"):
-        personDictionary = Main.LoadPerson(Main, call.message.chat.id)
-        if (personDictionary): Main.SavePerson(Main, chat_id=personDictionary["chat_id"], newUrl=data)
-        else: Main.SavePerson(Main, chat_id=call.message.chat.id, newUrl=data)
+        person = sql.GetUserFromChatID(1)
+        if (person): sql.SetSourceFromChatID(call.message.chat.id, data)
+        else:
+            sql.SetUserFromChatID(call.message.chat.id)
+            sql.SetSourceFromChatID(call.message.chat.id, data)
 
     bot.send_message(call.message.chat.id, f"Настройки сохранены.")
 

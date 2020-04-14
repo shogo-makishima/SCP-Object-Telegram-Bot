@@ -3,14 +3,13 @@ from requests import get
 from Classes.Core.Languages import Languanges
 
 class SCPFoundationAPI:
-    urls = ["http://scp-wiki.net/scp-", "http://scpfoundation.net/scp-"]
-    url = "http://scp-wiki.net/scp-"
+    url = "http://scp-wiki.net"
 
     def __init__(self): pass
 
     async def GetObjectByNumber(self, number: str = "610", langunage: Languanges.Language = Languanges.RU, url: str = None):
-        if (url): html = get(url + number).text
-        else: html = get(self.url + number).text
+        if (url): html = get(f"{url}/scp-{number}").text
+        else: html = get(f"{self.url}/scp-{number}").text
         data = BeautifulSoup(html, 'html.parser')
 
         strings: list = []
