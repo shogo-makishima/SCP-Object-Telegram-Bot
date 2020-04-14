@@ -32,7 +32,7 @@ def start_message(message):
 
 @bot.message_handler(commands=['favorite'])
 def send_FavoriteList(message):
-    bot.send_message(message.chat.id, ",".join(sql.GetFavoriteFromChatID(message.chat.id)))
+    bot.send_message(message.chat.id, ",\n".join(sql.GetFavoriteFromChatID(message.chat.id)[:1]))
 
 @bot.message_handler(commands=['source'])
 def send_SettingSource(message):
@@ -55,14 +55,17 @@ def send_scpText(message):
     for i in range(3): bot.send_message(message.chat.id, "Внимание! Дальше следует секретная информация.")
 
     keyboard = telebot.types.InlineKeyboardMarkup()
-    key = telebot.types.InlineKeyboardButton(text="Добавить.", callback_data=f"a_{message.text}")
-    keyboard.add(key)
+    add_Key = telebot.types.InlineKeyboardButton(text="Добавить.", callback_data=f"a_{message.text}")
+    keyboard.add(add_Key)
+    del_Key = telebot.types.InlineKeyboardButton(text="Удалить.", callback_data=f"d_{message.text}")
+    keyboard.add(del_Key)
 
     scpStrings = run(SCPFoundationAPI.GetObjectByNumber(SCPFoundationAPI, message.text, url=url))
-    for scpString in scpStrings:
-        bot.send_message(message.chat.id, scpString)
-
-    bot.send_message(message.chat.id, "Избранное.", reply_markup=keyboard)
+    for i in range(len(scpStrings)):
+        if (i == len(scpStrings)):
+            bot.send_message(message.chat.id, scpStrings[i], reply_markup=keyboard)
+            continue
+        bot.send_message(message.chat.id, scpStrings[i])
 
 @bot.callback_query_handler(func=lambda call: True)
 def callback_worker(call):
@@ -78,6 +81,8 @@ def callback_worker(call):
             sql.SetUserFromChatID(call.message.chat.id)
             sql.SetSourceFromChatID(call.message.chat.id, data)
 
+        bot.send_message(call.message.chat.id, f"Настройки сохранены.")
+
     elif (prefix == "a"):
         person = sql.GetUserFromChatID(call.message.chat.id)
         print(f"PERSON: {person}")
@@ -87,7 +92,7 @@ def callback_worker(call):
             sql.SetUserFromChatID(call.message.chat.id)
             sql.SetFavoriteByChatID(call.message.chat.id, data)
 
-    bot.send_message(call.message.chat.id, f"Настройки сохранены.")
+        bot.send_message(call.message.chat.id, f"Успешно.")
 
 
 if ("HEROKU" in list(os.environ.keys())):
