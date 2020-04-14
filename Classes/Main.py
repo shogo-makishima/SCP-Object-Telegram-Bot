@@ -1,8 +1,9 @@
 import json, os, math, sqlite3
 
 class SQLMain:
-    __connection = sqlite3.connect("app\\Saves\\SCPBot.db", check_same_thread=False)
-    __cursor = __connection.cursor()
+    def __init__(self):
+        self.__connection = sqlite3.connect("app\\Saves\\SCPBot.db", check_same_thread=False)
+        self.__cursor = self.__connection.cursor()
 
     def GetAllSources(self) -> list:
         temp_list_get = self.__cursor.execute("""SELECT Name FROM Sources""").fetchall()
