@@ -32,7 +32,7 @@ def start_message(message):
 
 @bot.message_handler(commands=['favorite'])
 def send_FavoriteList(message):
-    bot.send_message(message.chat.id, ",\n".join(sql.GetFavoriteFromChatID(message.chat.id)[:1]))
+    bot.send_message(message.chat.id, ",\n".join(sql.GetFavoriteFromChatID(message.chat.id)))
 
 @bot.message_handler(commands=['source'])
 def send_SettingSource(message):
@@ -62,7 +62,7 @@ def send_scpText(message):
 
     scpStrings = run(SCPFoundationAPI.GetObjectByNumber(SCPFoundationAPI, message.text, url=url))
     for i in range(len(scpStrings)):
-        if (i == len(scpStrings)):
+        if (i == len(scpStrings) - 1):
             bot.send_message(message.chat.id, scpStrings[i], reply_markup=keyboard)
             continue
         bot.send_message(message.chat.id, scpStrings[i])
