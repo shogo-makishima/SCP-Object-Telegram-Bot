@@ -16,13 +16,16 @@ print(sql.GetFavoriteFromChatID(666314796))
 print(sql.SetSourceFromChatID(666314796, "RU"))
 """
 
-
 TOKEN = os.environ.get('TOKEN')
 
 if (not TOKEN): sys.exit()
 
 bot = telebot.TeleBot(TOKEN)
-sql = SQLMain()
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+db_path = os.path.join(BASE_DIR, "Saves\\SCPBot.db")
+print(db_path)
+sql = SQLMain(db_path)
 
 @bot.message_handler(commands=['start'])
 def start_message(message):
