@@ -31,6 +31,10 @@ print(sql.GetAllTables())
 def start_message(message):
     bot.send_message(message.chat.id, f"Введите номер объекта...\n\nПредупреждение: Telegram не позволяет отправлять сообщения содержащие более 4096 символов, поэтому сообщение может делиться на несколько.")
 
+@bot.message_handler(commands=['favorite'])
+def send_FavoriteList(message):
+    bot.send_message(message.chat.id, ",".join(sql.GetFavoriteFromChatID(message.text)))
+
 @bot.message_handler(commands=['source'])
 def send_SettingSource(message):
     keyboard = telebot.types.InlineKeyboardMarkup()
@@ -41,15 +45,25 @@ def send_SettingSource(message):
 
 @bot.message_handler(content_types=['text'])
 def send_scpText(message):
+    if (len(message.text) > 10):
+        bot.send_message(message.chat.id, "Слишком большое сообщение.")
+        return
+
     url = None
     try: url = sql.GetSourceFromChatID(message.chat.id)
     except TypeError: print("Person has NoneType")
 
     for i in range(3): bot.send_message(message.chat.id, "Внимание! Дальше следует секретная информация.")
 
+    keyboard = telebot.types.InlineKeyboardMarkup()
+    key = telebot.types.InlineKeyboardButton(text="Добавить в избранное.", callback_data=f"a_{message.text}")
+    keyboard.add(key)
+
     scpStrings = run(SCPFoundationAPI.GetObjectByNumber(SCPFoundationAPI, message.text, url=url))
     for scpString in scpStrings:
         bot.send_message(message.chat.id, scpString)
+
+    bot.send_message(message.chat.id, "", reply_markup=keyboard)
 
 @bot.callback_query_handler(func=lambda call: True)
 def callback_worker(call):
@@ -64,6 +78,15 @@ def callback_worker(call):
         else:
             sql.SetUserFromChatID(call.message.chat.id)
             sql.SetSourceFromChatID(call.message.chat.id, data)
+
+    elif (prefix == "a"):
+        person = sql.GetUserFromChatID(call.message.chat.id)
+        print(f"PERSON: {person}")
+        if (person):
+            sql.SetFavoriteByChatID(call.message.chat.id, data)
+        else:
+            sql.SetUserFromChatID(call.message.chat.id)
+            sql.SetFavoriteByChatID(call.message.chat.id, data)
 
     bot.send_message(call.message.chat.id, f"Настройки сохранены.")
 
