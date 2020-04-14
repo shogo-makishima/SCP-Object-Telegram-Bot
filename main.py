@@ -23,9 +23,9 @@ if (not TOKEN): sys.exit()
 bot = telebot.TeleBot(TOKEN)
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-db_path = os.path.join(BASE_DIR, "Saves\\SCPBot.db")
-print(db_path)
+db_path = os.path.join(BASE_DIR, "Saves/SCPBot.db")
 sql = SQLMain(db_path)
+print(sql.GetAllSources())
 
 @bot.message_handler(commands=['start'])
 def start_message(message):

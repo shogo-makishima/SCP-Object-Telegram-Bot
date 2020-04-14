@@ -5,6 +5,9 @@ class SQLMain:
         self.__connection = sqlite3.connect(path, check_same_thread=False)
         self.__cursor = self.__connection.cursor()
 
+    def GetAllTables(self):
+        return self.__connection.execute("SELECT name FROM sqlite_master WHERE type='table';").fetchall()
+
     def GetAllSources(self) -> list:
         temp_list_get = self.__cursor.execute("""SELECT Name FROM Sources""").fetchall()
         temp_list_ret = list()
