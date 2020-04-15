@@ -1,12 +1,13 @@
-import json, os, math, sqlite3, mysql.connector as mysql
+import mysql.connector as mysql
+import Classes.Core.Settings as Settings
 
 class SQLMain:
     def __init__(self):
         self.__connection = mysql.connect(
-                host = "db4free.net",
-                user = "shogo_makishima",
-                passwd = "What0.0Color?",
-                database = "scpbot",
+                host = Settings.HOST_DB,
+                user = Settings.USER_DB,
+                passwd = Settings.PASSWD_DB,
+                database = Settings.DATABASE_DB,
         )
 
         self.__cursor = self.__connection.cursor()

@@ -7,8 +7,6 @@ from Classes.Main import SQLMain
 # scpAPI = SCPFoundationAPI()
 # print(scpAPI.GetObjectByNumber("3333"))
 
-
-
 # sql = SQLMain()
 # sql.SetFavoriteByChatID(666314796, "3333")
 # print(sql.GetFavoriteFromChatID(666314796))
