@@ -32,6 +32,7 @@ def start_message(message):
 @bot.message_handler(commands=['favorite'])
 def send_FavoriteList(message):
     temp_list = sql.GetFavoriteFromChatID(message.chat.id)
+    print(temp_list)
     if (len(temp_list) > 1): temp_list = temp_list[1:]
     bot.send_message(message.chat.id, ",\n".join(temp_list))
 
