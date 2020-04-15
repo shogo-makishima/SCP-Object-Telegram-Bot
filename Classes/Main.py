@@ -53,7 +53,7 @@ class SQLMain:
             self.__cursor.execute(f"""SELECT favorite FROM Users WHERE chat_id = {chat_id};""")
             string = str(self.__cursor.fetchone()[0])
             temp_list = string.split(",")
-            return temp_list if (temp_list != ['']) else list()
+            return temp_list if (temp_list != ['']) else ["None"]
         except TypeError:
             self.SetUserFromChatID(chat_id)
             return ["None"]
