@@ -23,7 +23,8 @@ class SQLMain:
         return temp_list_ret
 
     def GetUserFromChatID(self, chat_id: int) -> list:
-        return self.__cursor.execute(f"""SELECT * FROM Users WHERE chat_id = {chat_id};""").fetchone()
+        self.__cursor.execute(f"""SELECT * FROM Users WHERE chat_id = {chat_id};""")
+        return self.__cursor.fetchone()
 
     def SetUserFromChatID(self, chat_id: int) -> None:
         self.__cursor.execute(f"""INSERT INTO Users (chat_id, source) VALUES ({chat_id}, "ENG")""")
