@@ -12,7 +12,8 @@ class SQLMain:
         self.__cursor = self.__connection.cursor()
 
     def GetAllTables(self):
-        return self.__cursor.execute("SHOW TABLES").fetchall()
+        self.__cursor.execute("SHOW TABLES")
+        return self.__cursor.fetchall()
 
     def GetAllSources(self) -> list:
         self.__cursor.execute("""SELECT Name FROM Sources""")
