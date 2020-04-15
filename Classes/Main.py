@@ -1,15 +1,22 @@
-import json, os, math, sqlite3
+import json, os, math, sqlite3, mysql.connector as mysql
 
 class SQLMain:
-    def __init__(self, path):
-        self.__connection = sqlite3.connect(path, check_same_thread=False)
+    def __init__(self):
+        self.__connection = mysql.connect(
+                host = "db4free.net",
+                user = "shogo_makishima",
+                passwd = "What0.0Color?",
+                database = "scpbot",
+        )
+
         self.__cursor = self.__connection.cursor()
 
     def GetAllTables(self):
-        return self.__connection.execute("SELECT name FROM sqlite_master WHERE type='table';").fetchall()
+        return self.__cursor.execute("SHOW TABLES").fetchall()
 
     def GetAllSources(self) -> list:
-        temp_list_get = self.__cursor.execute("""SELECT Name FROM Sources""").fetchall()
+        self.__cursor.execute("""SELECT Name FROM Sources""")
+        temp_list_get = self.__cursor.fetchall()
         temp_list_ret = list()
         for i in temp_list_get: temp_list_ret.append(i[0])
         return temp_list_ret
@@ -22,7 +29,8 @@ class SQLMain:
         self.__connection.commit()
 
     def GetSourceFromChatID(self, chat_id: int) -> str:
-        return self.__cursor.execute(f"""SELECT URL From Sources WHERE Name = (SELECT source FROM Users WHERE chat_id = {chat_id});""").fetchone()[0]
+        self.__cursor.execute(f"""SELECT URL From Sources WHERE Name = (SELECT source FROM Users WHERE chat_id = {chat_id});""")
+        return self.__cursor.fetchone()[0]
 
     def SetSourceFromChatID(self, chat_id: int, data: str):
         self.__cursor.execute(
@@ -34,11 +42,13 @@ class SQLMain:
         self.__connection.commit()
 
     def GetLastFindingFromChatID(self, chat_id: int) -> str:
-        return self.__cursor.execute(f"""SELECT last_finding FROM Users WHERE chat_id = {chat_id};""").fetchone()[0]
+        self.__cursor.execute(f"""SELECT last_finding FROM Users WHERE chat_id = {chat_id};""")
+        return self.__cursor.fetchone()[0]
 
     def GetFavoriteFromChatID(self, chat_id: int) -> list:
         try:
-            string = str(self.__cursor.execute(f"""SELECT favorite FROM Users WHERE chat_id = {chat_id};""").fetchone()[0])
+            self.__cursor.execute(f"""SELECT favorite FROM Users WHERE chat_id = {chat_id};""")
+            string = str(self.__cursor.fetchone()[0])
             temp_list = string.split(",")
             return temp_list if (temp_list != ['']) else list()
         except TypeError:

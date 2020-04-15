@@ -8,12 +8,13 @@ from Classes.Main import SQLMain
 # print(scpAPI.GetObjectByNumber("3333"))
 
 
-"""
-sql = SQLMain()
-sql.SetFavoriteByChatID(666314796, "3333")
-print(sql.GetFavoriteFromChatID(666314796))
-print(sql.SetSourceFromChatID(666314796, "RU"))
-"""
+
+# sql = SQLMain()
+# sql.SetFavoriteByChatID(666314796, "3333")
+# print(sql.GetFavoriteFromChatID(666314796))
+# sql.SetSourceFromChatID(666314796, "ENG")
+# print(sql.GetSourceFromChatID(666314796))
+
 
 TOKEN = os.environ.get('TOKEN')
 
@@ -21,9 +22,9 @@ if (not TOKEN): sys.exit()
 
 bot = telebot.TeleBot(TOKEN)
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-db_path = os.path.join(BASE_DIR, "Saves/SCPBot.db")
-sql = SQLMain(db_path)
+# BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+# db_path = os.path.join(BASE_DIR, "Saves/SCPBot.db")
+sql = SQLMain()
 print(sql.GetAllTables())
 
 @bot.message_handler(commands=['start'])
