@@ -31,7 +31,9 @@ def start_message(message):
 
 @bot.message_handler(commands=['favorite'])
 def send_FavoriteList(message):
-    bot.send_message(message.chat.id, ",\n".join(sql.GetFavoriteFromChatID(message.chat.id)))
+    temp_list = sql.GetFavoriteFromChatID(message.chat.id)
+    if (len(temp_list) > 1): temp_list = temp_list[1:]
+    bot.send_message(message.chat.id, ",\n".join(temp_list))
 
 @bot.message_handler(commands=['source'])
 def send_SettingSource(message):
