@@ -36,7 +36,12 @@ def send_FavoriteList(message):
     temp_list = sql.GetFavoriteFromChatID(message.chat.id)
     if (len(temp_list) > 1): temp_list = temp_list[1:]
     Debug.Message(Debug, object=f"chat_id={message.chat.id}; temp_list={temp_list}")
-    bot.send_message(message.chat.id, ",\n".join(temp_list))
+    for i in temp_list:
+        if (i == "None"): bot.send_message(message.chat.id, f"{i}")
+        else:
+            keyboard = telebot.types.InlineKeyboardMarkup()
+            keyboard.add(telebot.types.InlineKeyboardButton(text="Удалить.", callback_data=f"d_{message.text}"))
+            bot.send_message(message.chat.id, f"{i}", reply_markup=keyboard)
 
 @bot.message_handler(commands=['source'])
 def send_SettingSource(message):
