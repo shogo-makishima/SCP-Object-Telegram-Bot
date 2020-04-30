@@ -27,6 +27,7 @@ print(sql.GetAllTables())
 
 @bot.message_handler(commands=['start'])
 def start_message(message):
+    print(message.id)
     bot.send_message(message.chat.id, f"Введите номер объекта...\n\nПредупреждение: Telegram не позволяет отправлять сообщения содержащие более 4096 символов, поэтому сообщение может делиться на несколько.")
 
 @bot.message_handler(commands=['favorite'])
