@@ -40,8 +40,10 @@ def send_FavoriteList(message):
         if (i == "None"): bot.send_message(message.chat.id, f"{i}")
         else:
             keyboard = telebot.types.InlineKeyboardMarkup()
-            keyboard.add(telebot.types.InlineKeyboardButton(text="Удалить.", callback_data=f"d_{i}"))
-            bot.send_message(message.chat.id, f"{i}", reply_markup=keyboard)
+            temp_message = bot.send_message(message.chat.id, f"{i}", reply_markup=keyboard)
+            keyboard.add(telebot.types.InlineKeyboardButton(text="Удалить.", callback_data=f"d_{i}_{temp_message.message_id}"))
+            bot.edit_message_text(text=temp_message.text, chat_id=temp_message.chat.id, message_id=temp_message.message_id, reply_markup=keyboard)
+            Debug.Warning(Debug, object=f"{temp_message.message_id}")
 
 @bot.message_handler(commands=['source'])
 def send_SettingSource(message):
@@ -83,7 +85,8 @@ def send_scpText(message):
 def callback_worker(call):
     data, prefix = call.data[2:], call.data[:1]
     Debug.Message(Debug, object=f"Data = {data}; Prefix = {prefix};")
-
+    return
+    
     if (prefix == "s"):
         person = sql.GetUserFromChatID(call.message.chat.id)
         if (person):
