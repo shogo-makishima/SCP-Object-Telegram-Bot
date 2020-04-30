@@ -40,7 +40,7 @@ def send_FavoriteList(message):
         if (i == "None"): bot.send_message(message.chat.id, f"{i}")
         else:
             keyboard = telebot.types.InlineKeyboardMarkup()
-            keyboard.add(telebot.types.InlineKeyboardButton(text="Удалить.", callback_data=f"d_{message.text}"))
+            keyboard.add(telebot.types.InlineKeyboardButton(text="Удалить.", callback_data=f"d_{i}"))
             bot.send_message(message.chat.id, f"{i}", reply_markup=keyboard)
 
 @bot.message_handler(commands=['source'])
