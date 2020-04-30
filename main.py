@@ -54,7 +54,7 @@ def send_SettingSource(message):
 
 @bot.message_handler(content_types=['text'])
 def send_scpText(message):
-    Debug.Message(Debug, object=f"Data = {message}")
+    Debug.Warning(Debug, object=f"Get message: chat_id={message.chat.id}, message_id={message.message_id}")
 
     if (len(message.text) > 10):
         bot.send_message(message.chat.id, "Слишком большое сообщение.")
