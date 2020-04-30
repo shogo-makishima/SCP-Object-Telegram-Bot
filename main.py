@@ -85,7 +85,6 @@ def send_scpText(message):
 def callback_worker(call):
     data, prefix = call.data[2:], call.data[:1]
     Debug.Message(Debug, object=f"Data = {data}; Prefix = {prefix};")
-    return
     
     if (prefix == "s"):
         person = sql.GetUserFromChatID(call.message.chat.id)
