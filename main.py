@@ -84,8 +84,13 @@ def send_scpText(message):
 @bot.callback_query_handler(func=lambda call: True)
 def callback_worker(call):
     temp_data = call.data.split("^")
-    prefix, data, postfix = temp_data[0], temp_data[1], temp_data[2]
+    try: prefix, data, postfix = temp_data[0], temp_data[1], temp_data[2]
+    except Exception as exception:
+        Debug.Error(Debug, f"exception={exception}, temp_data={temp_data}")
+        return
+
     # data, prefix = call.data[2:], call.data[:1]
+
     Debug.Message(Debug, object=f"prefix = {prefix}; data = {data}; postfix = {postfix};")
     
     if (prefix == "s"):
