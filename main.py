@@ -89,8 +89,6 @@ def callback_worker(call):
         Debug.Error(Debug, f"exception={exception}, temp_data={temp_data}")
         return
 
-    # data, prefix = call.data[2:], call.data[:1]
-
     Debug.Message(Debug, object=f"prefix = {prefix}; data = {data}; postfix = {postfix};")
     
     if (prefix == "s"):
@@ -124,13 +122,14 @@ def callback_worker(call):
         if (person):
             Debug.Success(Debug, object=f"Person was found in database!")
             sql.RemoveFavoriteByChatID(call.message.chat.id, data)
+            bot.delete_message(chat_id=call.message.chat.id, message_id=postfix)
         else:
             Debug.Error(Debug, object=f"Person was not found in database, start create a new user!")
             sql.SetUserFromChatID(call.message.chat.id)
             sql.RemoveFavoriteByChatID(call.message.chat.id, data)
+            bot.delete_message(chat_id=call.message.chat.id, message_id=postfix)
 
         Debug.Success(Debug, object="Complete!")
-        bot.send_message(call.message.chat.id, f"Успешно.")
 
 
 if ("HEROKU" in list(os.environ.keys())):
