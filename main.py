@@ -69,10 +69,7 @@ def send_scpText(message):
     for i in range(3): bot.send_message(message.chat.id, "Внимание! Дальше следует секретная информация.")
 
     keyboard = telebot.types.InlineKeyboardMarkup()
-    add_Key = telebot.types.InlineKeyboardButton(text="Добавить.", callback_data=f"a^{message.text}^n")
-    keyboard.add(add_Key)
-    del_Key = telebot.types.InlineKeyboardButton(text="Удалить.", callback_data=f"d^{message.text}^n")
-    keyboard.add(del_Key)
+    keyboard.add(telebot.types.InlineKeyboardButton(text="Добавить.", callback_data=f"a^{message.text}^n"))
 
     scpStrings = run(SCPFoundationAPI.GetObjectByNumber(SCPFoundationAPI, message.text, url=url))
     for i in range(len(scpStrings)):
@@ -114,8 +111,7 @@ def callback_worker(call):
             sql.SetUserFromChatID(call.message.chat.id)
             sql.SetFavoriteByChatID(call.message.chat.id, data)
 
-        Debug.Success(Debug, object="Complete!")
-        bot.send_message(call.message.chat.id, f"Успешно.")
+        Debug.Success(Debug, object="Add was completed!")
 
     elif (prefix == "d"):
         person = sql.GetUserFromChatID(call.message.chat.id)
@@ -129,7 +125,7 @@ def callback_worker(call):
             sql.RemoveFavoriteByChatID(call.message.chat.id, data)
             bot.delete_message(chat_id=call.message.chat.id, message_id=postfix)
 
-        Debug.Success(Debug, object="Complete!")
+        Debug.Success(Debug, object="Delete was completed!")
 
 
 if ("HEROKU" in list(os.environ.keys())):
