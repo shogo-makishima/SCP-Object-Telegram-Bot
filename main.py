@@ -49,7 +49,7 @@ def send_FavoriteList(message):
 def send_SettingSource(message):
     keyboard = telebot.types.InlineKeyboardMarkup()
     for i in sql.GetAllSources():
-        key = telebot.types.InlineKeyboardButton(text=i, callback_data=f"s^{i}^")
+        key = telebot.types.InlineKeyboardButton(text=i, callback_data=f"s^{i}^n")
         keyboard.add(key)
     Debug.Message(Debug, object=f"chat_id={message.chat.id}")
     bot.send_message(message.chat.id, f"Выберете источник поиска: ", reply_markup=keyboard)
@@ -69,9 +69,9 @@ def send_scpText(message):
     for i in range(3): bot.send_message(message.chat.id, "Внимание! Дальше следует секретная информация.")
 
     keyboard = telebot.types.InlineKeyboardMarkup()
-    add_Key = telebot.types.InlineKeyboardButton(text="Добавить.", callback_data=f"a^{message.text}^")
+    add_Key = telebot.types.InlineKeyboardButton(text="Добавить.", callback_data=f"a^{message.text}^n")
     keyboard.add(add_Key)
-    del_Key = telebot.types.InlineKeyboardButton(text="Удалить.", callback_data=f"d^{message.text}^")
+    del_Key = telebot.types.InlineKeyboardButton(text="Удалить.", callback_data=f"d^{message.text}^n")
     keyboard.add(del_Key)
 
     scpStrings = run(SCPFoundationAPI.GetObjectByNumber(SCPFoundationAPI, message.text, url=url))
