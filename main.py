@@ -58,10 +58,7 @@ def send_currencyUpdate(message):
 def send_weather(message):
     person = sql.GetUserFromChatID(message.chat.id)
     if (not person[-1]): bot.send_message(message.chat.id, f"Доступ запрещён!"); return
-
-    keyboard = telebot.types.InlineKeyboardMarkup()
-    keyboard.add(telebot.types.InlineKeyboardButton(text="Отправить местоположение", request_location=True))
-    bot.send_message(message.chat.id, "Привет! Нажми на кнопку и передай мне свое местоположение", reply_markup=keyboard)
+    bot.send_message(message.chat.id, "Отправь мне своё местоположение")
 
 @bot.message_handler(content_types=["location"])
 def get_location(message):
