@@ -80,7 +80,9 @@ def send_weather(message):
         elif (len(args) == 3):
             temp_list = weather.GetForecastWeatherByPosition(args[0], args[1], args[2])
             for element in temp_list: bot.send_message(message.chat.id, element)
-    except: bot.send_message(message.chat.id, "Данные не валидны")
+    except Exception as exception:
+        Debug.Error(Debug, exception)
+        bot.send_message(message.chat.id, "Данные не валидны")
 
 @bot.message_handler(content_types=["location"])
 def get_location(message):
