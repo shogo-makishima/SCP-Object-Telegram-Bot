@@ -63,6 +63,11 @@ def send_currencyUpdate(message):
     if (CheckSpecialFuncitons(message.chat.id)): bot.send_message(message.chat.id, f"Доступ запрещён!"); return
     sql.UpdateCurrencyFromList(run(currency.Update()))
 
+@bot.message_handler(commands=["special_commands"])
+def send_specialCommandsList(message):
+    if (CheckSpecialFuncitons(message.chat.id)): bot.send_message(message.chat.id, f"Доступ запрещён!"); return
+    bot.send_message(message.chat.id, f"\\currency\n\\update_currency\n\\weather")
+
 @bot.message_handler(commands=["weather"])
 def send_weather(message):
     if (CheckSpecialFuncitons(message.chat.id)): bot.send_message(message.chat.id, f"Доступ запрещён!"); return
@@ -73,7 +78,7 @@ def get_location(message):
     if (CheckSpecialFuncitons(message.chat.id)): bot.send_message(message.chat.id, f"Доступ запрещён!"); return
     if (message.location is not None):
         bot.send_message(message.chat.id, weather.GetWeatherByPosition(message.location.latitude, message.location.longitude))
-        print("latitude: %s; longitude: %s" % (message.location.latitude, message.location.longitude))
+        Debug.Success(Debug, "latitude: %s; longitude: %s" % (message.location.latitude, message.location.longitude))
 
 @bot.message_handler(commands=['favorite'])
 def send_FavoriteList(message):
@@ -171,7 +176,7 @@ def callback_worker(call):
     elif (prefix == "c"):
         temp_list = sql.GetCurrencyFromCodeName(data)
         Debug.Message(Debug, object=temp_list)
-        bot.send_message(call.message.chat.id, f"{temp_list[1]} {temp_list[3]} {temp_list[2]} {temp_list[4]}")
+        bot.send_message(call.message.chat.id, f"{temp_list[1]}: {temp_list[3]}, {temp_list[2]}, {temp_list[4]}")
         bot.delete_message(chat_id=call.message.chat.id, message_id=postfix)
 
 if ("HEROKU" in list(os.environ.keys())):
