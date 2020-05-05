@@ -15,7 +15,7 @@ class WeatherAPI:
         weather_humidity = f"{data['main']['humidity']}"
         weather_wind_speed = f"{data['wind']['speed']}"
 
-        return f"\n{weather_description}\n-> Температура: {weather_temp}°K | {round(float(weather_temp) - 273, 2)}°C\n-> Давление: {round(float(weather_pressure) * 100 / 133, 2)}мм. рт. ст.\n-> Влажность: {weather_humidity}%\n-> Ветер: {weather_wind_speed}м/с" #  , {weather_wind_deg}°
+        return f"\n{weather_description}:\n-> Температура: {weather_temp}°K | {round(float(weather_temp) - 273, 2)}°C\n-> Давление: {round(float(weather_pressure) * 100 / 133, 2)}мм. рт. ст.\n-> Влажность: {weather_humidity}%\n-> Ветер: {weather_wind_speed}м/с" #  , {weather_wind_deg}°
 
     def GetWeatherByCityName(self, city: str) -> str:
         data = get(self.__weather_current_url, params={"q": f"{city}", 'lang': 'ru', "APPID": Settings.APPID_OW}).json()
@@ -26,7 +26,7 @@ class WeatherAPI:
         weather_humidity = f"{data['main']['humidity']}"
         weather_wind_speed = f"{data['wind']['speed']}"
 
-        return f"\n{weather_description}\n-> Температура: {weather_temp}°K | {round(float(weather_temp) - 273, 2)}°C\n-> Давление: {round(float(weather_pressure) * 100 / 133, 2)}мм. рт. ст.\n-> Влажность: {weather_humidity}%\n-> Ветер: {weather_wind_speed}м/с" #  , {weather_wind_deg}°
+        return f"\n{weather_description}:\n-> Температура: {weather_temp}°K | {round(float(weather_temp) - 273, 2)}°C\n-> Давление: {round(float(weather_pressure) * 100 / 133, 2)}мм. рт. ст.\n-> Влажность: {weather_humidity}%\n-> Ветер: {weather_wind_speed}м/с" #  , {weather_wind_deg}°
 
 
     def GetForecastWeatherByPosition(self, lat: float, lon: float, count: int = 1) -> list:
