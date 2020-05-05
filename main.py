@@ -147,7 +147,7 @@ def callback_worker(call):
         Debug.Success(Debug, object="Delete was completed!")
 
     elif (prefix == "c"):
-        Debug.Message(sql.GetCurrencyFromCodeName(data))
+        Debug.Message(Debug, object=sql.GetCurrencyFromCodeName(data))
         # bot.send_message(call.message.chat.id, sql.GetCurrencyFromCodeName(data))
         bot.delete_message(chat_id=call.message.chat.id, message_id=postfix)
 
