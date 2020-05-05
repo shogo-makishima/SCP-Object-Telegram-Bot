@@ -37,7 +37,6 @@ def start_message(message):
 def send_currency(message):
     Debug.Message(Debug, object=f"chat_id={message.chat.id}")
     temp_list = run(currency.Update())
-    if (len(temp_list) > 1): temp_list = temp_list[1:]
     Debug.Message(Debug, object=f"chat_id={message.chat.id}; temp_list={temp_list}")
     for i in temp_list:
         keyboard = telebot.types.InlineKeyboardMarkup()
