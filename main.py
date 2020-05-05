@@ -54,6 +54,21 @@ def send_currencyUpdate(message):
     if (not person[-1]): bot.send_message(message.chat.id, f"Доступ запрещён!"); return
     sql.UpdateCurrencyFromList(run(currency.Update()))
 
+@bot.message_handler(commands=["weather"])
+def send_weather(message):
+    person = sql.GetUserFromChatID(message.chat.id)
+    if (not person[-1]): bot.send_message(message.chat.id, f"Доступ запрещён!"); return
+
+    keyboard = telebot.types.ReplyKeyboardMarkup()
+    keyboard.add(telebot.types.KeyboardButton(text="Отправить местоположение", request_location=True))
+    bot.send_message(message.chat.id, "Привет! Нажми на кнопку и передай мне свое местоположение", reply_markup=keyboard)
+
+@bot.message_handler(content_types=["location"])
+def get_location(message):
+    if message.location is not None:
+        print(message.location)
+        print("latitude: %s; longitude: %s" % (message.location.latitude, message.location.longitude))
+
 @bot.message_handler(commands=['favorite'])
 def send_FavoriteList(message):
     temp_list = sql.GetFavoriteFromChatID(message.chat.id)
