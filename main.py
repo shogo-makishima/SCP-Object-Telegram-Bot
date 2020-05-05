@@ -71,7 +71,7 @@ def send_CurrecntChatId(message):
 @bot.message_handler(commands=["special_commands"])
 def send_specialCommandsList(message):
     if (CheckSpecialFuncitons(message.chat.id)): bot.send_message(message.chat.id, f"Доступ запрещён!"); return
-    bot.send_message(message.chat.id, f"/currency - Список валют\n/update_currency - Обновить курс валют\n/weather - Узать погоду\n/current_chat_id - Узнать текущий message.chat.id")
+    bot.send_message(message.chat.id, f"/currency - Список валют\n/update_currency - Обновить курс валют\n/weather - Погода\n/current_chat_id - Текущий chat_id")
 
 @bot.message_handler(commands=["weather"])
 def send_weather(message):
@@ -181,7 +181,7 @@ def callback_worker(call):
     elif (prefix == "c"):
         temp_list = sql.GetCurrencyFromCodeName(data)
         Debug.Message(Debug, object=temp_list)
-        bot.send_message(call.message.chat.id, f"{temp_list[1]}: {temp_list[3]}, {temp_list[2]}, {temp_list[4]}")
+        bot.send_message(call.message.chat.id, f"{temp_list[1]}: {temp_list[2]} {temp_list[3]} -> {temp_list[4]}")
         bot.delete_message(chat_id=call.message.chat.id, message_id=postfix)
 
 if ("HEROKU" in list(os.environ.keys())):
