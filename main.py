@@ -45,16 +45,25 @@ def start_message(message):
 @bot.message_handler(commands=["currency"])
 def send_currency(message):
     if (CheckSpecialFuncitons(message.chat.id)): bot.send_message(message.chat.id, f"Доступ запрещён!"); return
+    args = ExtractArgs(message.text)
 
-    Debug.Message(Debug, object=f"chat_id={message.chat.id}")
-    temp_list = run(currency.Update())
-    Debug.Message(Debug, object=f"chat_id={message.chat.id}; temp_list={temp_list}")
+    try:
+        if (len(args) == 1):
+            temp_list = sql.GetCurrencyFromCodeName(args[0])
+            bot.send_message(message.chat.id, f"{temp_list[1]}: {temp_list[2]} {temp_list[3]} -> {temp_list[4]}")
+        else:
+            Debug.Message(Debug, object=f"chat_id={message.chat.id}")
+            temp_list = run(currency.Update())
+            Debug.Message(Debug, object=f"chat_id={message.chat.id}; temp_list={temp_list}")
 
-    keyboard = telebot.types.InlineKeyboardMarkup()
-    temp_message = bot.send_message(message.chat.id, f"Валюты", reply_markup=keyboard)
-    for i in temp_list:
-        keyboard.add(telebot.types.InlineKeyboardButton(text=f"{i.code_name}", callback_data=f"c^{i.code_name}^{temp_message.message_id}"))
-    bot.edit_message_text(text=temp_message.text, chat_id=temp_message.chat.id, message_id=temp_message.message_id, reply_markup=keyboard)
+            keyboard = telebot.types.InlineKeyboardMarkup()
+            temp_message = bot.send_message(message.chat.id, f"Валюты", reply_markup=keyboard)
+            for i in temp_list:
+                keyboard.add(telebot.types.InlineKeyboardButton(text=f"{i.code_name}", callback_data=f"c^{i.code_name}^{temp_message.message_id}"))
+            bot.edit_message_text(text=temp_message.text, chat_id=temp_message.chat.id, message_id=temp_message.message_id, reply_markup=keyboard)
+    except Exception as exception:
+        Debug.Error(Debug, exception)
+        bot.send_message(message.chat.id, "Данные не валидны")
 
 @bot.message_handler(commands=["update_currency"])
 def send_currencyUpdate(message):
