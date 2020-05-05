@@ -38,12 +38,13 @@ def send_currency(message):
     Debug.Message(Debug, object=f"chat_id={message.chat.id}")
     temp_list = run(currency.Update())
     Debug.Message(Debug, object=f"chat_id={message.chat.id}; temp_list={temp_list}")
+
+    keyboard = telebot.types.InlineKeyboardMarkup()
+    temp_message = bot.send_message(message.chat.id, f"Валюты", reply_markup=keyboard)
     for i in temp_list:
-        keyboard = telebot.types.InlineKeyboardMarkup()
-        temp_message = bot.send_message(message.chat.id, f"{i}", reply_markup=keyboard)
         keyboard.add(telebot.types.InlineKeyboardButton(text=f"{i.code_name}", callback_data=f"c^{i.code_name}^{temp_message.message_id}"))
-        bot.edit_message_text(text=temp_message.text, chat_id=temp_message.chat.id, message_id=temp_message.message_id, reply_markup=keyboard)
-        Debug.Warning(Debug, object=f"{temp_message.message_id}")
+    bot.edit_message_text(text=temp_message.text, chat_id=temp_message.chat.id, message_id=temp_message.message_id, reply_markup=keyboard)
+
 
 @bot.message_handler(commands=["update_currency"])
 def send_currencyUpdate(message):
@@ -146,7 +147,8 @@ def callback_worker(call):
         Debug.Success(Debug, object="Delete was completed!")
 
     elif (prefix == "c"):
-        bot.send_message(call.message.chat.id, sql.GetCurrencyFromCodeName(data))
+        Debug.Message(sql.GetCurrencyFromCodeName(data))
+        # bot.send_message(call.message.chat.id, sql.GetCurrencyFromCodeName(data))
         bot.delete_message(chat_id=call.message.chat.id, message_id=postfix)
 
 if ("HEROKU" in list(os.environ.keys())):
