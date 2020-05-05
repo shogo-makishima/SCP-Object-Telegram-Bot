@@ -6,17 +6,14 @@ from Classes.Main import SQLMain
 from Classes.Core.Debug import Debug
 from Classes.CurrencyAPI import CurrencyAPI
 from Classes.WeatherAPI import WeatherAPI
+import Classes.Core.Settings as Settings
 
-TOKEN = os.environ.get('TOKEN')
-
-if (not TOKEN): sys.exit()
-
-bot = telebot.TeleBot(TOKEN)
+if (not Settings.TOKEN): sys.exit()
+bot = telebot.TeleBot(Settings.TOKEN)
 
 sql = SQLMain()
 currency = CurrencyAPI()
 weather = WeatherAPI()
-print(sql.GetAllTables())
 
 def CheckRegisterUser(chat_id: int):
     person = sql.GetUserFromChatID(chat_id)
