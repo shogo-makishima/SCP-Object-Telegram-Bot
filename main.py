@@ -76,9 +76,9 @@ def send_weather(message):
     Debug.Message(Debug, args)
     try:
         if (len(args) == 0): bot.send_message(message.chat.id, "Отправь мне своё местоположение или напиши команду /weather <lat> <lon> <count> (Например: /weather 54.55493 36.329075 10")
-        if (len(args) == 2): bot.send_message(message.chat.id, weather.GetWeatherByPosition(args[0], args[1]))
+        if (len(args) == 2): bot.send_message(message.chat.id, weather.GetWeatherByPosition(float(args[0]), float(args[1])))
         elif (len(args) == 3):
-            temp_list = weather.GetForecastWeatherByPosition(args[0], args[1], args[2])
+            temp_list = weather.GetForecastWeatherByPosition(float(args[0]), float(args[1]), int(args[2]))
             for element in temp_list: bot.send_message(message.chat.id, element)
     except Exception as exception:
         Debug.Error(Debug, exception)
