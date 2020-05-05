@@ -92,14 +92,14 @@ def send_weather(message):
     Debug.Message(Debug, args)
     try:
         if (len(args) == 0):
-            bot.send_message(message.chat.id, "Отправь мне свою геолокацию или:\n-> Напиши команду /weather <lat> <lon> (Например: /weather 54.55493 36.329075)\n-> Напиши команду /weather <lat> <lon> <count> (Например: /weather 54.55493 36.329075 10)\n-> Напиши команду /weather <city> (Например: /weather Калуга)\n-> Напиши команду /weather <city> <count> (Например: /weather Калуга 10)")
+            bot.send_message(message.chat.id, "Отправь мне свою геолокацию или:\n-> Напиши команду /weather <lat> <lon> (Например: /weather 54.55493 36.329075)\n-> Напиши команду /weather <lat> <lon> <count> (Например: /weather 54.55493 36.329075 10)\n-> Напиши команду /weather <city> (Например: /weather Калуга)\n-> Напиши команду /weather <city> <count> (Например: /weather Калуга 10)\n\n-> P.S. Если название города содержит несколько слов, то используйте вместо пробела символ '+'.")
         elif (len(args) == 1):
-            bot.send_message(message.chat.id, weather.GetWeatherByCityName(args[0]))
+            bot.send_message(message.chat.id, weather.GetWeatherByCityName(args[0].replace("+", " ")))
         elif (len(args) == 2):
             if (IsFloat(args[0]) and IsFloat(args[1])):
                 bot.send_message(message.chat.id, weather.GetWeatherByPosition(float(args[0]), float(args[1])))
             if (args[0] and args[1].isdigit()):
-                temp_list = weather.GetForecastWeatherByName(args[0], int(args[1]))
+                temp_list = weather.GetForecastWeatherByCityName(args[0].replace("+", " "), int(args[1]))
                 for element in temp_list: bot.send_message(message.chat.id, element)
         elif (len(args) == 3):
             temp_list = weather.GetForecastWeatherByPosition(float(args[0]), float(args[1]), int(args[2]))

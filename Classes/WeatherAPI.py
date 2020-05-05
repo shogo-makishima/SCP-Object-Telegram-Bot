@@ -49,7 +49,7 @@ class WeatherAPI:
 
         return temp_list
 
-    def GetForecastWeatherByName(self, city: str, count: int = 1) -> list:
+    def GetForecastWeatherByCityName(self, city: str, count: int = 1) -> list:
         data = get(self.__weather_forecast_url, params={"q": f"{city}", 'lang': 'ru', "APPID": Settings.APPID_OW}).json()
 
         temp_list = list()
