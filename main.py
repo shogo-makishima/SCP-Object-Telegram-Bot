@@ -50,7 +50,7 @@ def send_currency(message):
     try:
         if (len(args) == 1):
             temp_list = sql.GetCurrencyFromCodeName(args[0])
-            bot.send_message(message.chat.id, f"{temp_list[1]}: {temp_list[2]} {temp_list[3]} -> {temp_list[4]}")
+            bot.send_message(message.chat.id, f"{temp_list[1]}: {temp_list[2]} {temp_list[3]} -> {temp_list[4]}₽")
         else:
             Debug.Message(Debug, object=f"chat_id={message.chat.id}")
             temp_list = run(currency.Update())
@@ -210,7 +210,7 @@ def callback_worker(call):
     elif (prefix == "c"):
         temp_list = sql.GetCurrencyFromCodeName(data)
         Debug.Message(Debug, object=temp_list)
-        bot.send_message(call.message.chat.id, f"{temp_list[1]}: {temp_list[2]} {temp_list[3]} -> {temp_list[4]}")
+        bot.send_message(call.message.chat.id, f"{temp_list[1]}: {temp_list[2]} {temp_list[3]} -> {temp_list[4]}₽")
         bot.delete_message(chat_id=call.message.chat.id, message_id=postfix)
 
 if ("HEROKU" in list(os.environ.keys())):
