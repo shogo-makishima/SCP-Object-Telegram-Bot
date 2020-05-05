@@ -75,8 +75,16 @@ def send_weather(message):
     args = ExtractArgs(message.text)
     Debug.Message(Debug, args)
     try:
-        if (len(args) == 0): bot.send_message(message.chat.id, "Отправь мне своё местоположение или напиши команду /weather <lat> <lon> <count> (Например: /weather 54.55493 36.329075 10")
-        if (len(args) == 2): bot.send_message(message.chat.id, weather.GetWeatherByPosition(float(args[0]), float(args[1])))
+        if (len(args) == 0):
+            bot.send_message(message.chat.id, "Отправь мне своё местоположение или напиши команду /weather <lat> <lon> <count> (Например: /weather 54.55493 36.329075 10")
+        elif (len(args) == 1):
+            bot.send_message(message.chat.id, weather.GetWeatherByCityName(args[0]))
+        elif (len(args) == 2):
+            if (args[0].isdecimal() and args[1].isdecimal()):
+                bot.send_message(message.chat.id, weather.GetWeatherByPosition(float(args[0]), float(args[1])))
+            if (args[0] and args[1].isdigit()):
+                temp_list = weather.GetForecastWeatherByName(args[0], int(args[1]))
+                for element in temp_list: bot.send_message(message.chat.id, element)
         elif (len(args) == 3):
             temp_list = weather.GetForecastWeatherByPosition(float(args[0]), float(args[1]), int(args[2]))
             for element in temp_list: bot.send_message(message.chat.id, element)
