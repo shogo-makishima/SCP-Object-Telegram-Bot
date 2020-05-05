@@ -60,7 +60,7 @@ def send_weather(message):
     if (not person[-1]): bot.send_message(message.chat.id, f"Доступ запрещён!"); return
 
     keyboard = telebot.types.InlineKeyboardMarkup()
-    keyboard.add(telebot.types.KeyboardButton(text="Отправить местоположение", request_location=True))
+    keyboard.add(telebot.types.InlineKeyboardButton(text="Отправить местоположение", request_location=True))
     bot.send_message(message.chat.id, "Привет! Нажми на кнопку и передай мне свое местоположение", reply_markup=keyboard)
 
 @bot.message_handler(content_types=["location"])
