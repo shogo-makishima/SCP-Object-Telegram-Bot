@@ -147,8 +147,9 @@ def callback_worker(call):
         Debug.Success(Debug, object="Delete was completed!")
 
     elif (prefix == "c"):
-        Debug.Message(Debug, object=sql.GetCurrencyFromCodeName(data))
-        # bot.send_message(call.message.chat.id, sql.GetCurrencyFromCodeName(data))
+        temp_list = sql.GetCurrencyFromCodeName(data)
+        Debug.Message(Debug, object=temp_list)
+        bot.send_message(call.message.chat.id, f"{temp_list[1]} {temp_list[3]} {temp_list[2]} {temp_list[4]}")
         bot.delete_message(chat_id=call.message.chat.id, message_id=postfix)
 
 if ("HEROKU" in list(os.environ.keys())):
