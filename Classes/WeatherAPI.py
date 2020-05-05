@@ -1,10 +1,11 @@
 from requests import get
+import Classes.Core.Settings as Settings
 
 class WeatherAPI:
     __weather_current_url = "https://api.openweathermap.org/data/2.5/weather"
     def __init__(self): pass
     def GetWeatherByPosition(self, lat: float, lon: float) -> str:
-        data = get(self.__weather_current_url, params={"lat": f"{lat}", "lon": f"{lon}", 'lang': 'ru', "APPID": "23b36e2d0634d4352ea52ad2ab028ea1"}).json()
+        data = get(self.__weather_current_url, params={"lat": f"{lat}", "lon": f"{lon}", 'lang': 'ru', "APPID": Settings.APPID_OW}).json()
 
         weather_description = f"{data['weather'][0]['description']}".capitalize()
         weather_temp = f"{data['main']['temp']}"
