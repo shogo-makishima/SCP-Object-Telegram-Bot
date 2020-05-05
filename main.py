@@ -30,6 +30,15 @@ currency = CurrencyAPI()
 weather = WeatherAPI()
 print(sql.GetAllTables())
 
+def CheckRegisterUser(chat_id: int):
+    person = sql.GetUserFromChatID(chat_id)
+    return person is not None
+
+def CheckSpecialFuncitons(chat_id: int):
+    person = sql.GetUserFromChatID(chat_id)
+    if (person is None): return False
+    else: return not person[-1]
+
 @bot.message_handler(commands=['start'])
 def start_message(message):
     Debug.Message(Debug, object=f"chat_id={message.chat.id}")
@@ -37,8 +46,7 @@ def start_message(message):
 
 @bot.message_handler(commands=["currency"])
 def send_currency(message):
-    person = sql.GetUserFromChatID(message.chat.id)
-    if (not person[-1]): bot.send_message(message.chat.id, f"Доступ запрещён!"); return
+    if (CheckSpecialFuncitons(message.chat.id)): bot.send_message(message.chat.id, f"Доступ запрещён!");
 
     Debug.Message(Debug, object=f"chat_id={message.chat.id}")
     temp_list = run(currency.Update())
@@ -52,18 +60,17 @@ def send_currency(message):
 
 @bot.message_handler(commands=["update_currency"])
 def send_currencyUpdate(message):
-    person = sql.GetUserFromChatID(message.chat.id)
-    if (not person[-1]): bot.send_message(message.chat.id, f"Доступ запрещён!"); return
+    if (CheckSpecialFuncitons(message.chat.id)): bot.send_message(message.chat.id, f"Доступ запрещён!");
     sql.UpdateCurrencyFromList(run(currency.Update()))
 
 @bot.message_handler(commands=["weather"])
 def send_weather(message):
-    person = sql.GetUserFromChatID(message.chat.id)
-    if (not person[-1]): bot.send_message(message.chat.id, f"Доступ запрещён!"); return
+    if (CheckSpecialFuncitons(message.chat.id)): bot.send_message(message.chat.id, f"Доступ запрещён!");
     bot.send_message(message.chat.id, "Отправь мне своё местоположение")
 
 @bot.message_handler(content_types=["location"])
 def get_location(message):
+    if (CheckSpecialFuncitons(message.chat.id)): bot.send_message(message.chat.id, f"Доступ запрещён!");
     if (message.location is not None):
         bot.send_message(message.chat.id, weather.GetWeatherByPosition(message.location.latitude, message.location.longitude))
         print("latitude: %s; longitude: %s" % (message.location.latitude, message.location.longitude))
@@ -126,8 +133,7 @@ def callback_worker(call):
     Debug.Message(Debug, object=f"prefix = {prefix}; data = {data}; postfix = {postfix};")
     
     if (prefix == "s"):
-        person = sql.GetUserFromChatID(call.message.chat.id)
-        if (person):
+        if (CheckRegisterUser(call.message.chat.id)):
             Debug.Success(Debug, object=f"Person was found in database!")
             sql.SetSourceFromChatID(call.message.chat.id, data)
         else:
@@ -139,8 +145,7 @@ def callback_worker(call):
         bot.send_message(call.message.chat.id, f"Настройки сохранены.")
 
     elif (prefix == "a"):
-        person = sql.GetUserFromChatID(call.message.chat.id)
-        if (person):
+        if (CheckRegisterUser(call.message.chat.id)):
             Debug.Success(Debug, object=f"Person was found in database!")
             sql.SetFavoriteByChatID(call.message.chat.id, data)
         else:
@@ -151,8 +156,7 @@ def callback_worker(call):
         Debug.Success(Debug, object="Add was completed!")
 
     elif (prefix == "d"):
-        person = sql.GetUserFromChatID(call.message.chat.id)
-        if (person):
+        if (CheckRegisterUser(call.message.chat.id)):
             Debug.Success(Debug, object=f"Person was found in database!")
             sql.RemoveFavoriteByChatID(call.message.chat.id, data)
             bot.delete_message(chat_id=call.message.chat.id, message_id=postfix)
