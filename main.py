@@ -46,7 +46,7 @@ def start_message(message):
 
 @bot.message_handler(commands=["currency"])
 def send_currency(message):
-    if (CheckSpecialFuncitons(message.chat.id)): bot.send_message(message.chat.id, f"Доступ запрещён!");
+    if (CheckSpecialFuncitons(message.chat.id)): bot.send_message(message.chat.id, f"Доступ запрещён!"); return
 
     Debug.Message(Debug, object=f"chat_id={message.chat.id}")
     temp_list = run(currency.Update())
@@ -60,17 +60,17 @@ def send_currency(message):
 
 @bot.message_handler(commands=["update_currency"])
 def send_currencyUpdate(message):
-    if (CheckSpecialFuncitons(message.chat.id)): bot.send_message(message.chat.id, f"Доступ запрещён!");
+    if (CheckSpecialFuncitons(message.chat.id)): bot.send_message(message.chat.id, f"Доступ запрещён!"); return
     sql.UpdateCurrencyFromList(run(currency.Update()))
 
 @bot.message_handler(commands=["weather"])
 def send_weather(message):
-    if (CheckSpecialFuncitons(message.chat.id)): bot.send_message(message.chat.id, f"Доступ запрещён!");
+    if (CheckSpecialFuncitons(message.chat.id)): bot.send_message(message.chat.id, f"Доступ запрещён!"); return
     bot.send_message(message.chat.id, "Отправь мне своё местоположение")
 
 @bot.message_handler(content_types=["location"])
 def get_location(message):
-    if (CheckSpecialFuncitons(message.chat.id)): bot.send_message(message.chat.id, f"Доступ запрещён!");
+    if (CheckSpecialFuncitons(message.chat.id)): bot.send_message(message.chat.id, f"Доступ запрещён!"); return
     if (message.location is not None):
         bot.send_message(message.chat.id, weather.GetWeatherByPosition(message.location.latitude, message.location.longitude))
         print("latitude: %s; longitude: %s" % (message.location.latitude, message.location.longitude))
