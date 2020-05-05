@@ -83,7 +83,7 @@ def send_weather(message):
     Debug.Message(Debug, args)
     try:
         if (len(args) == 0):
-            bot.send_message(message.chat.id, "Отправь мне своё местоположение или напиши команду /weather <lat> <lon> <count> (Например: /weather 54.55493 36.329075 10")
+            bot.send_message(message.chat.id, "Отправь мне свою геолокацию или:\n-> Напиши команду /weather <lat> <lon> (Например: /weather 54.55493 36.329075)\n-> Напиши команду /weather <lat> <lon> <count> (Например: /weather 54.55493 36.329075 10)\n-> Напиши команду /weather <city> (Например: /weather Калуга)\n-> Напиши команду /weather <city> <count> (Например: /weather Калуга 10)")
         elif (len(args) == 1):
             bot.send_message(message.chat.id, weather.GetWeatherByCityName(args[0]))
         elif (len(args) == 2):
