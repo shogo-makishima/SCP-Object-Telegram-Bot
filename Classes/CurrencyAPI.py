@@ -3,7 +3,7 @@ from requests import get
 
 class Value:
     def __init__(self, code_name: str, for_once: int, full_name: str, price: float):
-        self.code_name, self.for_once, self.full_name, self.price, = code_name, for_once, full_name, price
+        self.code_name, self.for_once, self.full_name, self.price = code_name, for_once, full_name, price
     def __str__(self): return f"{self.code_name} {self.full_name} {self.for_once} {self.price}"
 
 
