@@ -4,6 +4,7 @@ from asyncio import run
 from Classes.SCPFoundationAPI import SCPFoundationAPI
 from Classes.Main import SQLMain
 from Classes.Core.Debug import Debug
+from Classes.CurrencyAPI import CurrencyAPI
 
 # scpAPI = SCPFoundationAPI()
 # print(scpAPI.GetObjectByNumber("3333"))
@@ -24,12 +25,30 @@ bot = telebot.TeleBot(TOKEN)
 # BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 # db_path = os.path.join(BASE_DIR, "Saves/SCPBot.db")
 sql = SQLMain()
+currency = CurrencyAPI()
 print(sql.GetAllTables())
 
 @bot.message_handler(commands=['start'])
 def start_message(message):
     Debug.Message(Debug, object=f"chat_id={message.chat.id}")
     bot.send_message(message.chat.id, f"Введите номер объекта...\n\nПредупреждение: Telegram не позволяет отправлять сообщения содержащие более 4096 символов, поэтому сообщение может делиться на несколько.")
+
+@bot.message_handler(commands=["currency"])
+def send_currency(message):
+    Debug.Message(Debug, object=f"chat_id={message.chat.id}")
+    temp_list = run(currency.Update())
+    if (len(temp_list) > 1): temp_list = temp_list[1:]
+    Debug.Message(Debug, object=f"chat_id={message.chat.id}; temp_list={temp_list}")
+    for i in temp_list:
+        keyboard = telebot.types.InlineKeyboardMarkup()
+        temp_message = bot.send_message(message.chat.id, f"{i}", reply_markup=keyboard)
+        keyboard.add(telebot.types.InlineKeyboardButton(text=f"{i.code_name}", callback_data=f"c^{i.code_name}^{temp_message.message_id}"))
+        bot.edit_message_text(text=temp_message.text, chat_id=temp_message.chat.id, message_id=temp_message.message_id, reply_markup=keyboard)
+        Debug.Warning(Debug, object=f"{temp_message.message_id}")
+
+@bot.message_handler(commands=["update_currency"])
+def send_currencyUpdate(message):
+    sql.UpdateCurrencyFromList(run(currency.Update()))
 
 @bot.message_handler(commands=['favorite'])
 def send_FavoriteList(message):
@@ -127,6 +146,9 @@ def callback_worker(call):
 
         Debug.Success(Debug, object="Delete was completed!")
 
+    elif (prefix == "c"):
+        bot.send_message(call.message.chat.id, sql.GetCurrencyFromCodeName(data))
+        bot.delete_message(chat_id=call.message.chat.id, message_id=postfix)
 
 if ("HEROKU" in list(os.environ.keys())):
     logger = telebot.logger

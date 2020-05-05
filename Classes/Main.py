@@ -81,5 +81,24 @@ class SQLMain:
                 """)
         self.__connection.commit()
 
+    def GetCurrencyFromCodeName(self, code_name: str):
+        self.__cursor.execute(f"""SELECT * FROM Currency WHERE code_name = {code_name.upper()};""")
+        return self.__cursor.fetchone()
+
+    def UpdateCurrencyFromList(self, values: list) -> None:
+        self.__cursor.execute("SELECT code_name FROM Currency")
+        currency_in_db = [i[0] for i in self.__cursor.fetchall()]
+        print(currency_in_db)
+        for value in values:
+            if (value.code_name in currency_in_db):
+                self.__cursor.execute(f"""
+                UPDATE Currency
+                SET price = {value.price}
+                WHERE code_name = '{value.code_name}'
+                """)
+            else:
+                self.__cursor.execute(f"""INSERT INTO Currency (code_name, for_once, full_name, price) VALUES ('{value.code_name}', {value.for_once}, '{value.full_name}', {value.price})""")
+        self.__connection.commit()
+
     def CloseDataBase(self):
         self.__connection.close()
