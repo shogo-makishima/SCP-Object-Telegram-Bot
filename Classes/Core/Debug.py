@@ -28,6 +28,7 @@ class Debug:
     def Error(self, object: object = "ERROR"):
         print(f"{Colored.TEXT_BOLD}{Colored.TEXT_RED}{Colored.TEXT_ITALIC}ERROR: {Colored.TEXT_STANDART}{object.__str__()}")
 
+
 """
 Debug.Message(Debug, object=["1", "2"])
 Debug.Success(Debug, object=["1", "2"])

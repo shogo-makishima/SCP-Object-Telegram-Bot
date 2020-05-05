@@ -7,24 +7,12 @@ from Classes.Core.Debug import Debug
 from Classes.CurrencyAPI import CurrencyAPI
 from Classes.WeatherAPI import WeatherAPI
 
-# scpAPI = SCPFoundationAPI()
-# print(scpAPI.GetObjectByNumber("3333"))
-
-# sql = SQLMain()
-# sql.SetFavoriteByChatID(666314796, "3333")
-# print(sql.GetFavoriteFromChatID(666314796))
-# sql.SetSourceFromChatID(666314796, "ENG")
-# print(sql.GetSourceFromChatID(666314796))
-
-
 TOKEN = os.environ.get('TOKEN')
 
 if (not TOKEN): sys.exit()
 
 bot = telebot.TeleBot(TOKEN)
 
-# BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-# db_path = os.path.join(BASE_DIR, "Saves/SCPBot.db")
 sql = SQLMain()
 currency = CurrencyAPI()
 weather = WeatherAPI()
@@ -38,6 +26,9 @@ def CheckSpecialFuncitons(chat_id: int):
     person = sql.GetUserFromChatID(chat_id)
     if (person is None): return False
     else: return not person[-1]
+
+def ExtractArgs(args):
+    return args.split()[1:]
 
 @bot.message_handler(commands=['start'])
 def start_message(message):
@@ -62,6 +53,7 @@ def send_currency(message):
 def send_currencyUpdate(message):
     if (CheckSpecialFuncitons(message.chat.id)): bot.send_message(message.chat.id, f"Доступ запрещён!"); return
     sql.UpdateCurrencyFromList(run(currency.Update()))
+    bot.send_message(message.chat.id, "Успешно")
 
 @bot.message_handler(commands=["current_chat_id"])
 def send_CurrecntChatId(message):
@@ -76,7 +68,18 @@ def send_specialCommandsList(message):
 @bot.message_handler(commands=["weather"])
 def send_weather(message):
     if (CheckSpecialFuncitons(message.chat.id)): bot.send_message(message.chat.id, f"Доступ запрещён!"); return
-    bot.send_message(message.chat.id, "Отправь мне своё местоположение")
+
+    # /weather lat lon count
+    # /weather lat lon
+
+    args = ExtractArgs(message.text)
+    try:
+        if (len(args) == 0): bot.send_message(message.chat.id, "Отправь мне своё местоположение или напиши команду /weather <lat> <lon> <count> (Например: /weather 54.55493 36.329075 10")
+        if (len(args) == 2): bot.send_message(message.chat.id, weather.GetWeatherByPosition(args[0], args[1]))
+        elif (len(args) == 3):
+            temp_list = weather.GetForecastWeatherByPosition(args[0], args[1], args[2])
+            for element in temp_list: bot.send_message(message.chat.id, element)
+    except: bot.send_message(message.chat.id, "Данные не валидны")
 
 @bot.message_handler(content_types=["location"])
 def get_location(message):

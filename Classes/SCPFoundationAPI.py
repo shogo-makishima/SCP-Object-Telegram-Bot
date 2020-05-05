@@ -26,3 +26,13 @@ class SCPFoundationAPI:
         strings.append(string)
 
         return strings
+
+# scpAPI = SCPFoundationAPI()
+# print(scpAPI.GetObjectByNumber("3333"))
+
+# sql = SQLMain()
+# sql.SetFavoriteByChatID(666314796, "3333")
+# print(sql.GetFavoriteFromChatID(666314796))
+# sql.SetSourceFromChatID(666314796, "ENG")
+# print(sql.GetSourceFromChatID(666314796))
+
