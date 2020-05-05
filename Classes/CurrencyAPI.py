@@ -11,6 +11,7 @@ class Values(object):
     def __init__(self): self.values = list()
     def append(self, obj: Value): self.values.append(obj)
     def get(self, index: int): return self.values[index]
+    def __len__(self): return len(self.values)
     def __iter__(self):
         for i in self.values: yield i
 
