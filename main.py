@@ -35,6 +35,9 @@ def start_message(message):
 
 @bot.message_handler(commands=["currency"])
 def send_currency(message):
+    person = sql.GetUserFromChatID(message.chat.id)
+    if (not person[-1]): return
+
     Debug.Message(Debug, object=f"chat_id={message.chat.id}")
     temp_list = run(currency.Update())
     Debug.Message(Debug, object=f"chat_id={message.chat.id}; temp_list={temp_list}")
@@ -45,9 +48,10 @@ def send_currency(message):
         keyboard.add(telebot.types.InlineKeyboardButton(text=f"{i.code_name}", callback_data=f"c^{i.code_name}^{temp_message.message_id}"))
     bot.edit_message_text(text=temp_message.text, chat_id=temp_message.chat.id, message_id=temp_message.message_id, reply_markup=keyboard)
 
-
 @bot.message_handler(commands=["update_currency"])
 def send_currencyUpdate(message):
+    person = sql.GetUserFromChatID(message.chat.id)
+    if (not person[-1]): return
     sql.UpdateCurrencyFromList(run(currency.Update()))
 
 @bot.message_handler(commands=['favorite'])
