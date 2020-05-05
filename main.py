@@ -36,7 +36,7 @@ def start_message(message):
 @bot.message_handler(commands=["currency"])
 def send_currency(message):
     person = sql.GetUserFromChatID(message.chat.id)
-    if (not person[-1]): return
+    if (not person[-1]): bot.send_message(message.chat.id, f"Доступ запрещён!"); return
 
     Debug.Message(Debug, object=f"chat_id={message.chat.id}")
     temp_list = run(currency.Update())
@@ -51,7 +51,7 @@ def send_currency(message):
 @bot.message_handler(commands=["update_currency"])
 def send_currencyUpdate(message):
     person = sql.GetUserFromChatID(message.chat.id)
-    if (not person[-1]): return
+    if (not person[-1]): bot.send_message(message.chat.id, f"Доступ запрещён!"); return
     sql.UpdateCurrencyFromList(run(currency.Update()))
 
 @bot.message_handler(commands=['favorite'])
