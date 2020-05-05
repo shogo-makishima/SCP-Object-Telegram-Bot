@@ -63,10 +63,15 @@ def send_currencyUpdate(message):
     if (CheckSpecialFuncitons(message.chat.id)): bot.send_message(message.chat.id, f"Доступ запрещён!"); return
     sql.UpdateCurrencyFromList(run(currency.Update()))
 
+@bot.message_handler(commands=["current_chat_id"])
+def send_CurrecntChatId(message):
+    if (CheckSpecialFuncitons(message.chat.id)): bot.send_message(message.chat.id, f"Доступ запрещён!"); return
+    bot.send_message(message.chat.id, f"chat_id: {message.chat.id}")
+
 @bot.message_handler(commands=["special_commands"])
 def send_specialCommandsList(message):
     if (CheckSpecialFuncitons(message.chat.id)): bot.send_message(message.chat.id, f"Доступ запрещён!"); return
-    bot.send_message(message.chat.id, f"/currency\n/update_currency\n/weather")
+    bot.send_message(message.chat.id, f"/currency - Список валют\n/update_currency - Обновить курс валют\n/weather - Узать погоду\n/current_chat_id - Узнать текущий message.chat.id")
 
 @bot.message_handler(commands=["weather"])
 def send_weather(message):
