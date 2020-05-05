@@ -30,6 +30,13 @@ def CheckSpecialFuncitons(chat_id: int):
 def ExtractArgs(args):
     return args.split()[1:]
 
+def IsFloat(value):
+  try:
+    float(value)
+    return True
+  except ValueError:
+    return False
+
 @bot.message_handler(commands=['start'])
 def start_message(message):
     Debug.Message(Debug, object=f"chat_id={message.chat.id}")
@@ -80,7 +87,7 @@ def send_weather(message):
         elif (len(args) == 1):
             bot.send_message(message.chat.id, weather.GetWeatherByCityName(args[0]))
         elif (len(args) == 2):
-            if (args[0].isdecimal() and args[1].isdecimal()):
+            if (IsFloat(args[0]) and IsFloat(args[1])):
                 bot.send_message(message.chat.id, weather.GetWeatherByPosition(float(args[0]), float(args[1])))
             if (args[0] and args[1].isdigit()):
                 temp_list = weather.GetForecastWeatherByName(args[0], int(args[1]))
