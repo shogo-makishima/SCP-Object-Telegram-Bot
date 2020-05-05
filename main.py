@@ -79,7 +79,7 @@ def send_CurrecntChatId(message):
 @bot.message_handler(commands=["special_commands"])
 def send_specialCommandsList(message):
     if (CheckSpecialFuncitons(message.chat.id)): bot.send_message(message.chat.id, f"Доступ запрещён!"); return
-    bot.send_message(message.chat.id, f"/currency - Список валют\n/update_currency - Обновить курс валют\n/weather - Погода\n/current_chat_id - Текущий chat_id")
+    bot.send_message(message.chat.id, f"Специальные команды:\n-> /currency - Список валют (Или например: /currency USD)\n-> /update_currency - Обновить курс валют\n-> /weather - Погода\n-> /current_chat_id - Текущий chat_id")
 
 @bot.message_handler(commands=["weather"])
 def send_weather(message):
