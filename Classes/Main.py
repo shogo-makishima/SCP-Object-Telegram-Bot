@@ -82,7 +82,7 @@ class SQLMain:
         self.__connection.commit()
 
     def GetCurrencyFromCodeName(self, code_name: str):
-        self.__cursor.execute(f"""SELECT * FROM Currency WHERE code_name = {code_name.upper()};""")
+        self.__cursor.execute(f"""SELECT * FROM Currency WHERE code_name = '{code_name.upper()}';""")
         return self.__cursor.fetchone()
 
     def UpdateCurrencyFromList(self, values: list) -> None:
