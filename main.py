@@ -5,6 +5,7 @@ from Classes.SCPFoundationAPI import SCPFoundationAPI
 from Classes.Main import SQLMain
 from Classes.Core.Debug import Debug
 from Classes.CurrencyAPI import CurrencyAPI
+from Classes.WeatherAPI import WeatherAPI
 
 # scpAPI = SCPFoundationAPI()
 # print(scpAPI.GetObjectByNumber("3333"))
@@ -26,6 +27,7 @@ bot = telebot.TeleBot(TOKEN)
 # db_path = os.path.join(BASE_DIR, "Saves/SCPBot.db")
 sql = SQLMain()
 currency = CurrencyAPI()
+weather = WeatherAPI()
 print(sql.GetAllTables())
 
 @bot.message_handler(commands=['start'])
@@ -63,7 +65,7 @@ def send_weather(message):
 @bot.message_handler(content_types=["location"])
 def get_location(message):
     if (message.location is not None):
-        print(message.location)
+        bot.send_message(message.chat.id, weather.GetWeatherByPosition(message.location.latitude, message.location.longitude))
         print("latitude: %s; longitude: %s" % (message.location.latitude, message.location.longitude))
 
 @bot.message_handler(commands=['favorite'])
