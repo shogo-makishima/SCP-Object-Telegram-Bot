@@ -86,9 +86,6 @@ def send_weather(message, *args):
     if (CheckSpecialFuncitons(message.chat.id)): bot.send_message(message.chat.id, f"Доступ запрещён!"); return
     print(*args)
 
-    # /weather lat lon count
-    # /weather lat lon
-
     args = ExtractArgs(message.text)
     Debug.Message(Debug, args)
     try:
@@ -105,6 +102,7 @@ def send_weather(message, *args):
         elif (len(args) == 3):
             temp_list = weather.GetForecastWeatherByPosition(float(args[0]), float(args[1]), int(args[2]))
             for element in temp_list: bot.send_message(message.chat.id, element)
+        else: bot.send_message(message.chat.id, "Данные не валидны")
     except Exception as exception:
         Debug.Error(Debug, exception)
         bot.send_message(message.chat.id, "Данные не валидны")
