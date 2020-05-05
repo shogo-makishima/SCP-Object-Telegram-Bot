@@ -73,6 +73,7 @@ def send_weather(message):
     # /weather lat lon
 
     args = ExtractArgs(message.text)
+    Debug.Message(Debug, args)
     try:
         if (len(args) == 0): bot.send_message(message.chat.id, "Отправь мне своё местоположение или напиши команду /weather <lat> <lon> <count> (Например: /weather 54.55493 36.329075 10")
         if (len(args) == 2): bot.send_message(message.chat.id, weather.GetWeatherByPosition(args[0], args[1]))
