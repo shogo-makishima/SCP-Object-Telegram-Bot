@@ -12,8 +12,7 @@ class WeatherAPI:
         weather_pressure = f"{data['main']['pressure']}"
         weather_humidity = f"{data['main']['humidity']}"
         weather_wind_speed = f"{data['wind']['speed']}"
-        weather_wind_deg = f"{data['wind']['deg']}"
-
+        # weather_wind_deg = f"{data['wind']['deg']}"
         # print(data)
         return f"{weather_main}: {weather_description} -> Temperature: {weather_temp}°F | {round(float(weather_temp) - 273, 2)}°C -> Pressure: {round(float(weather_pressure) * 100 / 133, 2)}mm Hg -> Humidity: {weather_humidity}% -> Wind: {weather_wind_speed}m/s, {weather_wind_deg}°"
 
