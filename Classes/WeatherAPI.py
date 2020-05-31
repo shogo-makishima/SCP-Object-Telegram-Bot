@@ -2,8 +2,8 @@ from requests import get
 import Classes.Core.Settings as Settings
 
 class WeatherAPI:
-    __weather_current_url = "https://api.openweathermap.org/data/2.5/weather"
-    __weather_forecast_url = "https://api.openweathermap.org/data/2.5/forecast"
+    __weather_current_url = "http://api.openweathermap.org/data/2.5/weather"
+    __weather_forecast_url = "http://api.openweathermap.org/data/2.5/forecast"
 
     def __init__(self): pass
     def GetWeatherByPosition(self, lat: float, lon: float) -> str:
